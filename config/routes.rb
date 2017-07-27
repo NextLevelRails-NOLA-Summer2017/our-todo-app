@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  devise_for :users
   # get 'tasks' => 'tasks#index'
   # get 'new-task' => 'tasks#new'
   # get 'task' => 'tasks#show'

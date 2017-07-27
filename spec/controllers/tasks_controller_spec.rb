@@ -12,7 +12,7 @@ RSpec.describe TasksController, type: :controller do
 
     it 'returns all the tasks for the user' do
       # user with some tasks
-      user = create(:user_with_tasks)
+      user = create(:user)
 
       # request the index view
       get :index
