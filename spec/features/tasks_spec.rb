@@ -1,7 +1,10 @@
 require 'rails_helper'
 
 feature 'tasks/index' do
+  let(:user) { create(:user) }
+
   scenario 'renders a list of tasks' do
+    sign_in(user)
     create(:homework)
     create(:email)
 
@@ -15,7 +18,7 @@ end
 feature 'New Task' do
   scenario 'user adds a new task' do
     user = create(:user)
-
+    sign_in(user)
     visit tasks_path
 
     expect {
@@ -33,8 +36,11 @@ feature 'New Task' do
 end
 
 feature 'Edit Task' do
+  let(:user) { create(:user) }
   let(:task) { create(:homework) }
+
   scenario 'user edits task' do
+    sign_in(user)
 
     visit task_path(task)
 

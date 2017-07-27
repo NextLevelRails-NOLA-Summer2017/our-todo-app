@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe TasksController, type: :controller do
 
+  before { sign_in(create(:user)) }
+
   describe 'GET #index' do
 
     it 'renders the index template' do
@@ -12,7 +14,8 @@ RSpec.describe TasksController, type: :controller do
 
     it 'returns all the tasks for the user' do
       # user with some tasks
-      user = create(:user)
+      user = create(:user_with_real_boy_tasks)
+      sign_in(user)
 
       # request the index view
       get :index
@@ -186,6 +189,15 @@ RSpec.describe TasksController, type: :controller do
       delete :destroy, params: { id: task.to_param }
 
       expect(response).to redirect_to(tasks_path)
+    end
+  end
+
+  describe 'unauthenticated' do
+    it 'redirects user to login page when not signed in' do
+      sign_out(:user)
+
+      get :index
+      expect(response).to redirect_to(new_user_session_path)
     end
   end
 
