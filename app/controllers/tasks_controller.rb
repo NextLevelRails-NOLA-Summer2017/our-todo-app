@@ -1,9 +1,13 @@
 class TasksController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
     @tasks = Task.all
+
+    respond_to do |format|
+      format.json { render json: @tasks}
+    end
   end
 
   def new
@@ -15,9 +19,11 @@ class TasksController < ApplicationController
 
     respond_to do |format|
       if @task.save
-        format.html { redirect_to @task }
+        # format.html { redirect_to @task }
+        format.json { render json: @task, status: :ok }
       else
-        format.html { render :new }
+        # format.html { render :new }
+        format.json { render json: { errors: @task.errors.full_messages }, status: 422 }
       end
     end
   end
